@@ -76,7 +76,7 @@ public class CentroDistribuicao {
 
         if ((qtdade + gettAditivo() < MAX_ADITIVO)) {
             this.tAditivo += qtdade;
-            return gettAditivo();
+            return qtdade;
         } else {
             return -1;
         }
@@ -84,11 +84,26 @@ public class CentroDistribuicao {
     }
 
     public int recebeGasolina(int qtdade) {
-        return 0;
+        
+        if ((qtdade + gettGasolina() < MAX_GASOLINA)) {
+            this.tGasolina += qtdade;
+            return qtdade;
+        } else {
+            return -1;
+        }
+        
     }
 
     public int recebeAlcool(int qtdade) {
-        return 0;
+        
+
+        if ((qtdade + gettAlcool1() < MAX_ADITIVO)) {
+            this.tAditivo += qtdade;
+            return qtdade;
+        } else {
+            return -1;
+        }
+
     }
 
     public int[] encomendaCombustivel(int qtdade, TIPOPOSTO tipoPosto) {
