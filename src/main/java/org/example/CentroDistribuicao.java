@@ -107,6 +107,84 @@ public class CentroDistribuicao {
     }
 
     public int[] encomendaCombustivel(int qtdade, TIPOPOSTO tipoPosto) {
-        return 0;
+        //se pode sera tendido, retorna array com a quantiade de combustivel restante em cada tanque depois
+            //na ordem -> aditivo, gasolina, alcoolt1, alcoolt2
+        
+        //se recebe valor invalido retorna -7
+        //se nao puder ser atendido por causa da situacao, retorna -14
+        //caso nao tenha combustivel suficiente para completar a mistura, retorna -21
+        
+        // quandide de gasolina solicitada
+        // quanto de cada vai precisar
+        // temos o suficioente?
+
+        int[] retornoArr = new int[4];
+
+        SITUACAO situacao = getSituacao();
+
+        double qtdGasolina = qtdade * 0.7;
+        double qtdAditivo = qtdade * 0.05;
+        double qtdAlcool = qtdade * 0.25;
+
+        //caso receba valor invalido
+        if (qtdade <= 0) {
+            retornoArr[0] = -7;
+            return retornoArr;
+        }
+        
+        //caso nao tenha combustivel suficiente para retornar
+        if (qtdAditivo > gettAditivo()) {
+            retornoArr[0] = -21;
+            return retornoArr;
+        } else if (qtdAlcool > gettAlcool1() + gettAlcool2()) {
+            retornoArr[0] = -21;
+            return retornoArr;
+        } else if (qtdGasolina > gettGasolina()) {
+            retornoArr[0] = -21;
+            return retornoArr;
+        }
+
+        //analisar a situacao e retornar as quantidades necessarias
+        switch(situacao){
+            case NORMAL: {
+                retornoArr[0] = tAditivo;
+                    retornoArr[1] = tGasolina;
+                    retornoArr[2] = tAlcool1;
+                    retornoArr[3] = tAlcool2;
+            }
+
+            case SOBRAVISO: {
+                if (tipoPosto == TIPOPOSTO.COMUM) {
+                    retornoArr[0] = tAditivo/2;
+                    retornoArr[1] = tGasolina/2;
+                    retornoArr[2] = tAlcool1/2;
+                    retornoArr[3] = tAlcool2/2;
+                } else if (tipoPosto == TIPOPOSTO.ESTRATEGICO) {
+                    retornoArr[0] = tAditivo;
+                    retornoArr[1] = tGasolina;
+                    retornoArr[2] = tAlcool1;
+                    retornoArr[3] = tAlcool2;
+                }
+
+            }
+            case EMERGENCIA: {
+                if (tipoPosto == TIPOPOSTO.COMUM) {
+                    retornoArr[0] = 0;
+                    retornoArr[1] = 0;
+                    retornoArr[2] = 0;
+                    retornoArr[3] = 0;
+                } else if (tipoPosto == TIPOPOSTO.ESTRATEGICO) {
+                    retornoArr[0] = tAditivo/2;
+                    retornoArr[1] = tGasolina/2;
+                    retornoArr[2] = tAlcool1/2;
+                    retornoArr[3] = tAlcool2/2;
+                }
+            }
+        }
+
+
+        return retornoArr;
+
     }
+
 }
